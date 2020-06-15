@@ -19,6 +19,10 @@ const PostSchema = mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
+  dateFromNumber: {
+    type: Number,
+    default: Date.now(),
+  },
   dayCount: {
     type: Number,
     default: () => getDaysReturned("06-10-2020"),

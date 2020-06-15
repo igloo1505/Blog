@@ -16,6 +16,7 @@ var accessLogStream = fs.createWriteStream(path.join(__dirname, "access.log"), {
 app.use(morgan("combined", { stream: accessLogStream }));
 
 app.use("/postBlog", require("./routes/BlogInput.js"));
+app.use("/getBlogs", require("./routes/getBlogs.js"));
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));

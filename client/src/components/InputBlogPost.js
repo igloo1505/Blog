@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
+import Axios from "axios";
 import "materialize-css/dist/css/materialize.min.css";
 import M from "materialize-css/dist/js/materialize.min.js";
+import appConstants from "../AppConstants";
 
 const InputBlogPost = (props) => {
   const [title, setTitle] = useState("");
@@ -21,27 +23,42 @@ const InputBlogPost = (props) => {
     );
     instance.open();
   };
-  const handleSubmit = () => {
-    console.log(subjectMatter, title, content);
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  const handleSubmit = async () => {
+    let newPost = {
+      title,
+      subjectMatterArray: subjectMatter,
+    };
+    if (contentParagraph === "") {
+      newPost.content = content;
+    } else if (contentParagraph.length > 0) {
+      newPost.content = [...content, contentParagraph];
+    }
+    const res = await Axios.post("/postBlog", newPost, config);
+    console.log(res.data);
   };
   const appendBreak = () => {
     setContent([...content, contentParagraph]);
     setContentParagraph("");
   };
   return (
-    <div className="row" style={{ margin: "auto" }}>
+    <div className="row cardMain" style={appConstants.defaultCardStyle}>
       <ConfirmDeleteModal
         toDelete={toDelete}
         content={content}
         setContent={setContent}
-        toDelete={toDelete}
       />
-      <form className="col s12">
+      <form className="col s12" style={{ padding: "30px" }}>
         <div className="col s12">
           <input
             placeholder="Post Title"
             id="post_title"
             type="text"
+            value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
           <label htmlFor="post_title">Post Title</label>
@@ -120,7 +137,10 @@ const InputBlogPost = (props) => {
         </div>
         <a
           className="waves-effect waves-light btn-large"
-          style={{ marginLeft: "50%", transform: "translateX(-50%)" }}
+          style={{
+            marginLeft: "50%",
+            transform: "translateX(-50%)",
+          }}
           onClick={() => handleSubmit()}
         >
           <i className="material-icons right">send</i>Post
