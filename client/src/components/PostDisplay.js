@@ -1,11 +1,13 @@
 import React, { useEffect } from "react";
 import appConstants from "../AppConstants";
+import DisplayBlogNavigationFooter from "./DisplayBlogNavigationFooter";
 
 const PostDisplay = (props) => {
-  const { data } = props;
+  const { data, index, setIndex, dataArray } = props;
   return (
-    <div className="cardMain" style={appConstants.defaultCardStyle}>
+    <div className="card" style={appConstants.defaultWithoutMargin}>
       <h4 style={{ textAlign: "center", paddingTop: "20px" }}>{data.title}</h4>
+      <h6 style={{ textAlign: "center" }}>{data.dataReadable}</h6>
       <h6 style={{ textAlign: "center" }}>Day Number {data.dayCount}</h6>
       <div
         style={{
@@ -41,6 +43,12 @@ const PostDisplay = (props) => {
           </p>
         ))}
       </div>
+
+      <DisplayBlogNavigationFooter
+        index={index}
+        setIndex={setIndex}
+        data={dataArray}
+      />
     </div>
   );
 };

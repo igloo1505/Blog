@@ -1,20 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { getAll } from "../actions";
+import { getAll, getByDateFromRecent } from "../actions";
 import PostDisplay from "./PostDisplay";
 
-const LandingPage = () => {
+const LandingPage = (props) => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [data, setData] = useState({});
+  const [index, setIndex] = useState(0);
   useEffect(() => {
-    const getData = async () => {
-      let dataReturned = await getAll();
-      console.log("returned", dataReturned);
-      setData(dataReturned[0]);
-      setIsLoaded(true);
-    };
-    getData();
-  }, []);
-  return isLoaded ? <PostDisplay data={data} /> : "";
+    setIsLoaded(props.isLoaded);
+  }, [props]);
+
+  return isLoaded ? (
+    <PostDisplay
+      data={props.data[index]}
+      dataArray={props.data}
+      index={index}
+      setIndex={setIndex}
+    />
+  ) : (
+    ""
+  );
 };
 
 export default LandingPage;

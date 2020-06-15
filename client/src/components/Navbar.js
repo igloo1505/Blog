@@ -9,6 +9,12 @@ const Navbar = (props) => {
       setNavOpacity(percentage * 100);
     }
   };
+  const handleNewNavState = (stateString) => {
+    props.setNavState(stateString);
+  };
+  const handleTagFilter = (e) => {
+    props.setNavState("By Topic");
+  };
   return (
     <div
       id="navHolder"
@@ -81,7 +87,7 @@ const Navbar = (props) => {
           </li>
         ) : (
           <li>
-            <a onClick={() => props.setNavState("By Topic")}>By Topic</a>
+            <a onClick={() => handleTagFilter()}>By Topic</a>
           </li>
         )}
       </ul>
